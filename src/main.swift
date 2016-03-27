@@ -92,21 +92,23 @@ do {
         return (submodule.name, change, body)
     }
 
-    let subject = "Update " + submoduleUpdateMessages.map({ (submoduleName, change, _) in
-        return "\(submoduleName): (\(change))"
-    }).joined(separator: ", ")
-    let body = submoduleUpdateMessages.flatMap({ (submoduleName, _, body) -> String? in
-        if body.count <= 0 {
-            return nil
-        }
-        return ([
-            "\(submoduleName):",
-        ] + body).joined(separator: "\n")
-    }).joined(separator: "\n\n")
+    if !submoduleUpdateMessages.isEmpty {
+        let subject = "Update " + submoduleUpdateMessages.map({ (submoduleName, change, _) in
+            return "\(submoduleName): (\(change))"
+        }).joined(separator: ", ")
+        let body = submoduleUpdateMessages.flatMap({ (submoduleName, _, body) -> String? in
+            if body.count <= 0 {
+                return nil
+            }
+            return ([
+                "\(submoduleName):",
+            ] + body).joined(separator: "\n")
+        }).joined(separator: "\n\n")
 
-    print(subject)
-    print("")
-    print(body)
+        print(subject)
+        print("")
+        print(body)
+    }
 } catch {
     print(error)
 }
